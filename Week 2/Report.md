@@ -2,7 +2,7 @@ Report Week 2-
 
 All tutorials were followed and all errors were solved
 Changes made-
-• A new location India is added along with its Flag\n
+• A new location India is added along with its Flag
 • Location was initially without a box and now a proper box was
 added with background color.
 • Location did not have country flag initially which is added now
