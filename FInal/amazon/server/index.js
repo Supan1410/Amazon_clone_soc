@@ -1,23 +1,35 @@
+// IMPORTS FROM PACKAGES
 const express = require("express");
-const moongoose = require("mongoose");
-
+const mongoose = require("mongoose");
+const adminRouter = require("./routes/admin");
+// IMPORTS FROM OTHER FILES
 const authRouter = require("./routes/auth");
-const { default: mongoose } = require("mongoose");
+const productRouter = require("./routes/product");
+const userRouter = require("./routes/user");
 
-
-const port = 3000;
+// INIT
+const PORT = process.env.PORT || 3000;
 const app = express();
-const db= "mongodb+srv://supan:Supan@cluster1.xqv3ff5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
+const DB =
+  "mongodb+srv://supan:Supan@cluster1.xqv3ff5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
 
+// middleware
 app.use(express.json());
 app.use(authRouter);
+app.use(adminRouter);
+app.use(productRouter);
+app.use(userRouter);
 
-mongoose.connect(db).then(() => {
-    console.log("Connected to MongoDB");
-}).catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
+// Connections
+mongoose
+  .connect(DB)
+  .then(() => {
+    console.log("Connection Successful");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`connected at port ${PORT}`);
 });
-
-app.listen(port,"0.0.0.0", () => {
-    console.log(`Server is running at http://localhost:${port}`);
-    }   );
