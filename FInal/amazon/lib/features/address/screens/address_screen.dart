@@ -1,5 +1,6 @@
 import 'package:amazon/constants/utils.dart';
 import 'package:amazon/features/address/services/address_services.dart';
+import 'package:amazon/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
@@ -66,19 +67,31 @@ class _AddressScreenState extends State<AddressScreen> {
     );
   }
 
-  void onGooglePayResult(res) {
+  void onGooglePayResult(res) async {
     if (Provider.of<UserProvider>(context, listen: false)
         .user
         .address
         .isEmpty) {
       addressServices.saveUserAddress(
-          context: context, address: addressToBeUsed);
+        context: context,
+        address: addressToBeUsed,
+      );
     }
+
     addressServices.placeOrder(
       context: context,
       address: addressToBeUsed,
       totalSum: double.parse(widget.totalAmount),
     );
+
+    // 👇 Navigate to home screen
+    if (mounted) {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        HomeScreen.routeName, // make sure this is your actual home route name
+        (route) => true,
+      );
+    }
   }
 
   void payPressed(String addressFromProvider) {
@@ -205,6 +218,33 @@ class _AddressScreenState extends State<AddressScreen> {
                 },
               ),
               const SizedBox(height: 10),
+              // FutureBuilder<PaymentConfiguration>(
+              //   future: PaymentConfiguration.fromAsset('gpay.json'),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const CircularProgressIndicator();
+              //     }
+              //     if (snapshot.hasError || !snapshot.hasData) {
+              //       return const Text('Error loading Google Pay configuration');
+              //     }
+
+              //     return ElevatedButton(
+              //       onPressed: () {
+              //         payPressed(address);
+              //         onGooglePayResult(
+              //             {'status': 'SUCCESS'}); // Simulate success
+              //       },
+              //       style: ElevatedButton.styleFrom(
+              //         minimumSize: const Size(double.infinity, 50),
+              //         backgroundColor: Colors.black,
+              //       ),
+              //       child: const Text(
+              //         'Place Order (Simulated GPay)',
+              //         style: TextStyle(color: Colors.white),
+              //       ),
+              //     );
+              //   },
+              // ),
               FutureBuilder<PaymentConfiguration>(
                 future: PaymentConfiguration.fromAsset('gpay.json'),
                 builder: (context, snapshot) {
@@ -215,20 +255,35 @@ class _AddressScreenState extends State<AddressScreen> {
                     return const Text('Error loading Google Pay configuration');
                   }
 
-                  return ElevatedButton(
+                  return GooglePayButton(
+                    paymentConfiguration: snapshot.data!,
+                    paymentItems: paymentItems,
+                    type: GooglePayButtonType.pay,
+                    margin: const EdgeInsets.only(top: 15),
+                    width: double.infinity,
+                    height: 50,
                     onPressed: () {
-                      payPressed(address);
-                      onGooglePayResult(
-                          {'status': 'SUCCESS'}); // Simulate success
+                      final addressFromProvider =
+                          Provider.of<UserProvider>(context, listen: false)
+                              .user
+                              .address;
+
+                      try {
+                        payPressed(addressFromProvider);
+                      } catch (e) {
+                        showSnackBar(context, e.toString());
+                        return;
+                      }
+
+                      if (addressToBeUsed.isEmpty) {
+                        showSnackBar(
+                            context, 'Please enter or select an address');
+                        return;
+                      }
                     },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: Colors.black,
-                    ),
-                    child: const Text(
-                      'Place Order (Simulated GPay)',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    onPaymentResult: onGooglePayResult,
+                    loadingIndicator:
+                        const Center(child: CircularProgressIndicator()),
                   );
                 },
               ),

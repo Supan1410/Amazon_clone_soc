@@ -1,5 +1,6 @@
 import 'package:amazon/common/widgets/custom_button.dart';
 import 'package:amazon/common/widgets/stars.dart';
+import 'package:amazon/features/address/screens/address_screen.dart';
 import 'package:amazon/features/product_details/services/product_details_services.dart';
 import 'package:amazon/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -28,6 +29,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       ProductDetailsServices();
   double avgRating = 0;
   double myRating = 0;
+  void navigateToAddress(int sum) {
+    Navigator.pushNamed(
+      context,
+      AddressScreen.routeName,
+      arguments: sum.toString(),
+    );
+  }
 
   @override
   void initState() {
@@ -219,7 +227,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: CustomButton(
                 text: 'Buy Now',
                 onTap: () {
-                  
+                  // Provide a default sum value, e.g., 1
+                  navigateToAddress(1);
                 },
               ),
             ),

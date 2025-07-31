@@ -2,6 +2,7 @@ import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/features/admin/screens/analytics_screen.dart';
 import 'package:amazon/features/admin/screens/orders_screen.dart';
 import 'package:amazon/features/admin/screens/posts_screen.dart';
+import 'package:amazon/features/auth/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -26,6 +27,10 @@ class _AdminScreenState extends State<AdminScreen> {
     setState(() {
       _page = page;
     });
+  }
+
+  void logout() {
+    Navigator.pushNamedAndRemoveUntil(context, AuthScreen.routeName, (route) => false);
   }
 
   @override
@@ -60,6 +65,15 @@ class _AdminScreenState extends State<AdminScreen> {
               )
             ],
           ),
+          actions: [
+            IconButton(
+              onPressed: logout,
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
       ),
       body: pages[_page],
