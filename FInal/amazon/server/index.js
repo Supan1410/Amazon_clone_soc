@@ -10,9 +10,8 @@ const userRouter = require("./routes/user");
 // INIT
 const PORT = process.env.PORT || 3000;
 const app = express();
-const DB =
-  "mongodb+srv://supan:Supan@cluster1.xqv3ff5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
-
+const db =
+  "mongodb+srv://supan:supan@amazon.s4tlfuh.mongodb.net/?retryWrites=true&w=majority&appName=amazon";
 // middleware
 app.use(express.json());
 app.use(authRouter);
@@ -22,7 +21,7 @@ app.use(userRouter);
 
 // Connections
 mongoose
-  .connect(DB)
+  .connect(db)
   .then(() => {
     console.log("Connection Successful");
   })

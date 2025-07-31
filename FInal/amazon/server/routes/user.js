@@ -4,7 +4,6 @@ const auth = require("../middlewares/auth");
 const Order = require("../models/order");
 const { Product } = require("../models/product");
 const User = require("../models/user");
-const db= "mongodb+srv://supan:Supan@cluster1.xqv3ff5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
 
 
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {

@@ -59,14 +59,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           product: product,
         ),
       );
-    // case AddressScreen.routeName:
-    //   var totalAmount = routeSettings.arguments as String;
-    //   return MaterialPageRoute(
-    //     settings: routeSettings,
-    //     builder: (_) => AddressScreen(
-    //       totalAmount: totalAmount,
-    //     ),
-    //   );
+    case AddressScreen.routeName:
+      var totalAmount = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => AddressScreen(
+          totalAmount: totalAmount,
+        ),
+      );
     case OrderDetailScreen.routeName:
       var order = routeSettings.arguments as Order;
       return MaterialPageRoute(

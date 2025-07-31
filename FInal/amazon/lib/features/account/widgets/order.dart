@@ -1,64 +1,103 @@
-import "package:amazon/constants/global_variables.dart";
-import "package:amazon/features/account/widgets/single_product.dart";
-import "package:flutter/material.dart";
+import 'package:amazon/common/widgets/loader.dart';
+import 'package:amazon/constants/global_variables.dart';
+import 'package:amazon/features/account/services/account_services.dart';
+import 'package:amazon/features/account/widgets/single_product.dart';
+import 'package:amazon/features/order_details/screens/order_details.dart';
+import 'package:amazon/models/order.dart';
+import 'package:flutter/material.dart';
 
-class Order extends StatefulWidget {
-  const Order({super.key});
+class Orders extends StatefulWidget {
+  const Orders({super.key});
 
   @override
-  State<Order> createState() => OrderState();
+  State<Orders> createState() => _OrdersState();
 }
 
-class OrderState extends State<Order> {
+class _OrdersState extends State<Orders> {
+  List<Order>? orders;
+  final AccountServices accountServices = AccountServices();
 
-  List list=[
-   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFYqoKTu_o3Zns2yExbst2Co84Gpc2Q1RJbA&s',
-   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFYqoKTu_o3Zns2yExbst2Co84Gpc2Q1RJbA&s',
-   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFYqoKTu_o3Zns2yExbst2Co84Gpc2Q1RJbA&s'
- ];
+  @override
+  void initState() {
+    super.initState();
+    fetchOrders();
+  }
 
+  void fetchOrders() async {
+    orders = await accountServices.fetchMyOrders(context: context);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(left: 15),
-              child: const Text(
-                "Your Orders",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+    return orders == null
+        ? const Loader()
+        : Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                    ),
+                    child: const Text(
+                      'Your Orders',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      right: 15,
+                    ),
+                    child: Text(
+                      'See all',
+                      style: TextStyle(
+                        color: GlobalVariables.selectedNavBarColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(right: 15),
-              child: Text(
-                "See all",
-                style: TextStyle(
-                  color: GlobalVariables.selectedNavBarColor,
+              // display orders
+              Container(
+                height: 170,
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  top: 20,
+                  right: 0,
+                ),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: orders!.length,
+                  itemBuilder: (context, index) {
+                    final order = orders![index];
 
-                  fontWeight: FontWeight.w600,
+                    // Safety check: skip orders with empty products or empty images
+                    if (order.products.isEmpty ||
+                        order.products[0].images.isEmpty) {
+                      return const SizedBox(); // Skip rendering
+                    }
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          OrderDetailScreen.routeName,
+                          arguments: order,
+                        );
+                      },
+                      child: SingleProduct(
+                        image: order.products[0].images[0],
+                      ),
+                    );
+                  },
                 ),
               ),
-            ),
-          ],
-        ),
-        Container(
-          height: 170,
-          padding: EdgeInsets.only(left: 10,top:20,right: 0,),
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: list.length,
-            itemBuilder: ((context,index){
-              return SingleProduct(image: list[index]);
-
-
-          }),),
-        )
-      ],
-    );
+            ],
+          );
   }
 }

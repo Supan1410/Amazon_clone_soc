@@ -218,7 +218,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.all(10),
               child: CustomButton(
                 text: 'Buy Now',
-                onTap: () {},
+                onTap: () {
+                  
+                },
               ),
             ),
             const SizedBox(height: 10),
@@ -227,7 +229,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: CustomButton(
                 text: 'Add to Cart',
                 onTap: addToCart,
-                // backgroundColor: const Color.fromRGBO(254, 216, 19, 1),
+                color: const Color.fromRGBO(254, 216, 19, 1),
               ),
             ),
             const SizedBox(height: 10),
