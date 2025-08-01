@@ -3,7 +3,6 @@ import 'package:amazon/features/account/services/account_services.dart';
 import 'package:amazon/features/admin/screens/analytics_screen.dart';
 import 'package:amazon/features/admin/screens/orders_screen.dart';
 import 'package:amazon/features/admin/screens/posts_screen.dart';
-import 'package:amazon/features/auth/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatefulWidget {
