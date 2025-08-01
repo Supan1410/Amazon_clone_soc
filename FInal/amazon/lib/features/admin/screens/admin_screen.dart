@@ -1,5 +1,4 @@
 import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/features/account/services/account_services.dart';
 import 'package:amazon/features/admin/screens/analytics_screen.dart';
 import 'package:amazon/features/admin/screens/orders_screen.dart';
 import 'package:amazon/features/admin/screens/posts_screen.dart';
@@ -30,7 +29,7 @@ class _AdminScreenState extends State<AdminScreen> {
   }
 
   void logout() {
-    AccountServices().logOut(context);
+    Navigator.pushNamedAndRemoveUntil(context, AuthScreen.routeName, (route) => false);
   }
 
   @override

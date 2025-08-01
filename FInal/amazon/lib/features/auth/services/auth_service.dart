@@ -110,8 +110,9 @@ class AuthService {
         },
       );
 
-      var response = jsonDecode(tokenRes.body);
+      if (tokenRes.body.isEmpty) return;
 
+      final response = jsonDecode(tokenRes.body);
       if (response == true) {
         http.Response userRes = await http.get(
           Uri.parse('$uri/'),

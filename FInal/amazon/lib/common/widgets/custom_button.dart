@@ -1,4 +1,3 @@
-import 'package:amazon/constants/global_variables.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -18,8 +17,7 @@ class CustomButton extends StatelessWidget {
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 50),
-        backgroundColor: GlobalVariables.secondaryColor,
-        foregroundColor: Colors.white, // Text (and icon) color
+        backgroundColor: Colors.white,
       ),
       child: Text(
         text,
