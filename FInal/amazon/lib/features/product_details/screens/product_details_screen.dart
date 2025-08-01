@@ -226,9 +226,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.all(10),
               child: CustomButton(
                 text: 'Buy Now',
-                onTap: () {
-                  // Provide a default sum value, e.g., 1
-                  navigateToAddress(1);
+                onTap: () async {
+                  productDetailsServices.addToCart(
+                    context: context,
+                    product: widget.product,
+                  );
+                  if (mounted) {
+                    navigateToAddress(1);
+                  }
                 },
               ),
             ),

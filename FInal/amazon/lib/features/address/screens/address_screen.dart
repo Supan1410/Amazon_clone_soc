@@ -1,6 +1,6 @@
+import 'package:amazon/common/widgets/bottombar.dart';
 import 'package:amazon/constants/utils.dart';
 import 'package:amazon/features/address/services/address_services.dart';
-import 'package:amazon/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +88,7 @@ class _AddressScreenState extends State<AddressScreen> {
     if (mounted) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        HomeScreen.routeName, // make sure this is your actual home route name
+        Bottombar.routeName, // make sure this is your actual home route name
         (route) => true,
       );
     }
@@ -218,33 +218,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 },
               ),
               const SizedBox(height: 10),
-              // FutureBuilder<PaymentConfiguration>(
-              //   future: PaymentConfiguration.fromAsset('gpay.json'),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return const CircularProgressIndicator();
-              //     }
-              //     if (snapshot.hasError || !snapshot.hasData) {
-              //       return const Text('Error loading Google Pay configuration');
-              //     }
 
-              //     return ElevatedButton(
-              //       onPressed: () {
-              //         payPressed(address);
-              //         onGooglePayResult(
-              //             {'status': 'SUCCESS'}); // Simulate success
-              //       },
-              //       style: ElevatedButton.styleFrom(
-              //         minimumSize: const Size(double.infinity, 50),
-              //         backgroundColor: Colors.black,
-              //       ),
-              //       child: const Text(
-              //         'Place Order (Simulated GPay)',
-              //         style: TextStyle(color: Colors.white),
-              //       ),
-              //     );
-              //   },
-              // ),
               FutureBuilder<PaymentConfiguration>(
                 future: PaymentConfiguration.fromAsset('gpay.json'),
                 builder: (context, snapshot) {
