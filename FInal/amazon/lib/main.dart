@@ -8,8 +8,6 @@ import 'package:amazon/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
@@ -49,6 +47,15 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
+          backgroundColor: GlobalVariables.secondaryColor,
+          foregroundColor: Colors.white
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: GlobalVariables.secondaryColor, // Background color
+            foregroundColor: GlobalVariables.secondaryColor, // Text (and icon) color
+          ),
+        
         ),
         useMaterial3: true, // can remove this line
       ),
