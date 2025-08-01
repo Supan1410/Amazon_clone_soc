@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:amazon/constants/error_handling.dart';
 import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/constants/utils.dart';
 import 'package:amazon/models/product.dart';
 import 'package:amazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,7 @@ class HomeServices {
         },
       );
     } catch (e) {
-      showSnackBar(context, e.toString());
+    //   showSnackBar(context, e.toString());
     }
     return productList;
   }
@@ -72,7 +71,7 @@ class HomeServices {
         },
       );
     } catch (e) {
-      showSnackBar(context, e.toString());
+      // showSnackBar(context, e.toString());
     }
     return product;
   }
